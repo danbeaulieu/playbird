@@ -1,0 +1,7 @@
+Playbird is a simple Play! Framework plugin that provides website traffic visualizations via websockets.
+
+Largly ripped off from hummingbird js -> http://hummingbirdstats.com/
+Special thanks to smoothie charts     -> http://smoothiecharts.org/
+
+After you install it if you visit /playbird/ with a websocket enabled browser (tested in latest Chrome)
+you can test it out. Demo to come shortly. 
