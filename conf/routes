@@ -1,0 +1,12 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:playbird
+#
+# ~~~~
+
+WS      /streamsocket           playbird.PlaybirdWebSocket.StreamSocket.index
+
+GET     /                      playbird.PlaybirdController.index
+
+GET		/track					playbird.PlaybirdController.track

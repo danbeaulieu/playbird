@@ -1,0 +1,64 @@
+<html>
+	<head>
+	#{script 'jquery-1.5.2.min.js'/}
+	#{script 'smoothie.js' /}
+	#{stylesheet 'playbird.css' /}
+	<script>
+		var total = 0;
+		var timeSeries = new TimeSeries();
+		var socket = new WebSocket('@@{playbird.PlaybirdWebSocket.StreamSocket.index()}');
+		socket.onerror = function(e) {
+			alert("Error" + se);
+		}
+		socket.onopen = function(evt) { 
+			//alert("Connection open ..."); 
+		}
+		//socket.send("foo");
+		// Message received on the socket
+    	socket.onmessage = function(event) {
+    		//alert(new Date().getTime());
+    		total = total + parseInt(event.data);
+    		//alert(total);
+    	}
+    	
+    	setInterval(function() {
+    		// alert(new Date().getTime());
+    		//if (total > 0) {
+    			//alert(new Date().getTime());
+    			timeSeries.append(new Date().getTime() - 1250, total);
+    			total = 0;
+    		//}
+     		//display(event.data);
+    	}, 750);
+	    $(document).ready(function() {
+	      var chart = new SmoothieChart();
+          chart.addTimeSeries(timeSeries, { 
+          	strokeStyle: 'rgba(0, 255, 0, 1)', 
+          	fillStyle: 'rgba(0, 255, 0, 0.2)', 
+          	lineWidth: 4 });
+          chart.streamTo(document.getElementById("chart"), 2000);
+          
+	      $("#test_it").click(function(e) {
+	      	e.preventDefault();
+	        var img = document.createElement('img');
+	        img.src = "/playbird/track?f=" + Math.ceil(Math.random() * 1000000);
+	      });
+	    });
+	    
+  	</script>
+	</head>
+	<body>
+	<div id="title">
+	<h1>Playbird!</h1>
+	</div>
+	<div id="main">
+	<h2>Traffic:</h2>
+	<div id="canvas-wrapper">
+	<canvas id="chart" width="600" height="350"></canvas>
+    </div>
+	<br />
+	<button id="test_it" style="margin-left: 250px;">Send test traffic</button>
+	<img src="/playbird/track" />
+    </div>
+	</body>
+</html>
